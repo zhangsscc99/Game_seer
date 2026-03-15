@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onUnmounted } from 'vue'
 
 const props = defineProps({
   elf: {
@@ -88,21 +88,8 @@ defineEmits(['click'])
 const tiltX = ref(0)
 const tiltY = ref(0)
 
-function onMouseMove(e) {
-  if (rarity.value !== 'UR') return
-  const rect = e.currentTarget.getBoundingClientRect()
-  const cx = rect.left + rect.width / 2
-  const cy = rect.top + rect.height / 2
-  const dx = (e.clientX - cx) / (rect.width / 2)
-  const dy = (e.clientY - cy) / (rect.height / 2)
-  tiltX.value = -dy * 12
-  tiltY.value = dx * 12
-}
-
-function onMouseLeave() {
-  tiltX.value = 0
-  tiltY.value = 0
-}
+// rarity 必须在所有依赖它的 computed 之前声明
+const rarity = computed(() => (props.elf.rarity || 'N').toUpperCase())
 
 const imgBgClass = computed(() => {
   const map = {
@@ -115,8 +102,6 @@ const imgBgClass = computed(() => {
   return map[rarity.value] || 'bg-space-700'
 })
 
-
-
 const cardStyle = computed(() => {
   if (rarity.value === 'UR') {
     return {
@@ -126,6 +111,27 @@ const cardStyle = computed(() => {
   }
   return {}
 })
+
+let _mounted = true
+onUnmounted(() => { _mounted = false })
+
+function onMouseMove(e) {
+  if (!_mounted || rarity.value !== 'UR') return
+  const rect = e.currentTarget?.getBoundingClientRect()
+  if (!rect) return
+  const cx = rect.left + rect.width / 2
+  const cy = rect.top + rect.height / 2
+  const dx = (e.clientX - cx) / (rect.width / 2)
+  const dy = (e.clientY - cy) / (rect.height / 2)
+  tiltX.value = -dy * 12
+  tiltY.value = dx * 12
+}
+
+function onMouseLeave() {
+  if (!_mounted) return
+  tiltX.value = 0
+  tiltY.value = 0
+}
 
 const cardClass = computed(() => {
   const base = 'group'

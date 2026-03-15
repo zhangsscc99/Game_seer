@@ -23,12 +23,12 @@
     </div>
 
     <!-- 图片区域 -->
-    <div class="relative aspect-square overflow-hidden bg-space-700">
+    <div class="relative aspect-square overflow-hidden flex items-center justify-center" :class="imgBgClass">
       <!-- 精灵图片（图鉴全部可见） -->
       <img
         :src="elf.image_path || `http://localhost:8000/static/elves/${elf.id}.png`"
         :alt="elf.name"
-        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 img-main"
+        class="w-full h-full object-contain p-2 transition-transform duration-500 hover:scale-110 img-main"
         @error="handleImgError"
       />
 
@@ -104,7 +104,18 @@ function onMouseLeave() {
   tiltY.value = 0
 }
 
-const rarity = computed(() => (props.elf.rarity || 'N').toUpperCase())
+const imgBgClass = computed(() => {
+  const map = {
+    N:   'bg-space-700',
+    R:   'bg-[#0d1f3a]',
+    SR:  'bg-[#1a1200]',
+    SSR: 'bg-[#1a0800]',
+    UR:  'bg-[#0f0020]',
+  }
+  return map[rarity.value] || 'bg-space-700'
+})
+
+
 
 const cardStyle = computed(() => {
   if (rarity.value === 'UR') {

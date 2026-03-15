@@ -50,29 +50,6 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-3">
-      <div>
-        <label class="block text-gray-400 text-sm mb-1">经验奖励</label>
-        <input
-          v-model.number="form.exp_reward"
-          type="number"
-          min="1"
-          max="500"
-          class="game-input"
-        />
-      </div>
-      <div>
-        <label class="block text-gray-400 text-sm mb-1">金币奖励</label>
-        <input
-          v-model.number="form.coin_reward"
-          type="number"
-          min="1"
-          max="200"
-          class="game-input"
-        />
-      </div>
-    </div>
-
     <div v-if="error" class="bg-red-900/30 border border-red-500/50 rounded px-3 py-2">
       <p class="text-red-400 text-sm">{{ error }}</p>
     </div>
@@ -120,8 +97,6 @@ const form = reactive({
   description: '',
   category: 'daily',
   difficulty: 1,
-  exp_reward: 20,
-  coin_reward: 10
 })
 
 const errors = reactive({ title: '' })
@@ -133,13 +108,10 @@ watch(() => props.task, (task) => {
       description: task.description || '',
       category: task.category || 'daily',
       difficulty: task.difficulty || 1,
-      exp_reward: task.exp_reward || 20,
-      coin_reward: task.coin_reward || 10
     })
   } else {
     Object.assign(form, {
-      title: '', description: '', category: 'daily',
-      difficulty: 1, exp_reward: 20, coin_reward: 10
+      title: '', description: '', category: 'daily', difficulty: 1,
     })
   }
 }, { immediate: true })

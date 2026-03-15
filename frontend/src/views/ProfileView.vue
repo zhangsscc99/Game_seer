@@ -17,31 +17,13 @@
             <div class="w-24 h-24 rounded-full bg-accent/20 border-4 border-accent/50 flex items-center justify-center text-4xl font-bold text-accent glow-pulse">
               {{ displayName.charAt(0).toUpperCase() }}
             </div>
-            <div class="absolute bottom-0 right-0 bg-accent text-space-900 text-xs font-bold px-2 py-0.5 rounded-full">
-              Lv.{{ userStore.level }}
-            </div>
           </div>
 
           <!-- 基本信息 -->
           <div class="flex-1 text-center sm:text-left">
             <h2 class="text-white text-2xl font-bold">{{ userStore.user?.username || displayName }}</h2>
             <p class="text-gray-400 mt-0.5">{{ userStore.user?.email }}</p>
-            <p class="text-accent text-sm mt-1">Lv.{{ userStore.level }} 指挥官</p>
-
-            <!-- 经验条 -->
-            <div class="mt-4 max-w-sm">
-              <div class="flex justify-between text-xs text-gray-400 mb-1">
-                <span>当前经验</span>
-                <span>{{ userStore.currentExp }} / {{ userStore.nextLevelExp }}</span>
-              </div>
-              <ExpBar
-                :current="userStore.currentExp"
-                :max="userStore.nextLevelExp"
-                :level="userStore.level"
-                size="lg"
-              />
-              <p class="text-gray-500 text-xs mt-1">距离下一级还需 {{ userStore.nextLevelExp - userStore.currentExp }} EXP</p>
-            </div>
+            <p class="text-accent text-sm mt-1">指挥官</p>
           </div>
 
           <!-- 连续天数 -->

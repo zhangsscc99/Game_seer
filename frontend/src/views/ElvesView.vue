@@ -24,6 +24,25 @@
       </div>
     </div>
 
+    <!-- 搜索框 -->
+    <div class="relative">
+      <MagnifyingGlassIcon class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+      <input
+        v-model="searchQuery"
+        type="text"
+        placeholder="搜索精灵名称..."
+        class="game-input pl-9 pr-8 w-full sm:w-72"
+        @input="onSearchInput"
+      />
+      <button
+        v-if="searchQuery"
+        @click="clearSearch"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+      >
+        <XMarkIcon class="w-4 h-4" />
+      </button>
+    </div>
+
     <!-- 筛选栏 -->
     <div class="flex flex-wrap gap-3">
       <!-- 稀有度筛选 -->
@@ -116,11 +135,14 @@ import { ref, computed, reactive, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useElfStore } from '@/stores/elf'
 import ElfCard from '@/components/elf/ElfCard.vue'
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 
 const router = useRouter()
 const elfStore = useElfStore()
 
 const pageSize = 25
+const searchQuery = ref('')
+let searchTimer = null
 
 const filters = reactive({
   rarity: null,
@@ -168,19 +190,30 @@ function toggleFilter(type, value) {
   } else {
     filters[type] = value
   }
-  loadElves()
+  loadElves(1)
 }
 
-async function loadElves() {
-  const params = { page: elfStore.page, page_size: pageSize }
+async function loadElves(page = 1) {
+  const params = { page, page_size: pageSize }
   if (filters.rarity) params.rarity = filters.rarity
   if (filters.element) params.element = filters.element
+  if (searchQuery.value.trim()) params.name = searchQuery.value.trim()
   await elfStore.fetchElves(params)
+}
+
+function onSearchInput() {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(() => loadElves(1), 400)
+}
+
+function clearSearch() {
+  searchQuery.value = ''
+  loadElves(1)
 }
 
 async function changePage(newPage) {
   if (newPage < 1 || newPage > totalPages.value) return
-  await elfStore.fetchElves({ page: newPage, page_size: pageSize, rarity: filters.rarity, element: filters.element })
+  await loadElves(newPage)
 }
 
 function handleElfClick(elf) {
@@ -188,6 +221,6 @@ function handleElfClick(elf) {
 }
 
 onMounted(() => {
-  loadElves()
+  loadElves(1)
 })
 </script>

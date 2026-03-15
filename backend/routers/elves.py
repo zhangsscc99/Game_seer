@@ -24,8 +24,9 @@ def get_my_elves(
 def list_elves(
     rarity: Optional[ElfRarity] = Query(None),
     element: Optional[ElfElement] = Query(None),
+    name: Optional[str] = Query(None),
     page: int = Query(1, ge=1),
-    page_size: int = Query(24, ge=1, le=100),
+    page_size: int = Query(25, ge=1, le=100),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
@@ -34,6 +35,8 @@ def list_elves(
         query = query.filter(ElfTemplate.rarity == rarity)
     if element:
         query = query.filter(ElfTemplate.element == element)
+    if name:
+        query = query.filter(ElfTemplate.name.ilike(f"%{name}%"))
 
     total = query.count()
     offset = (page - 1) * page_size

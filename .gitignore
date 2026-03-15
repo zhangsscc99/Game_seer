@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+
+# 数据库
+*.db
+*.sqlite3
+
+# 环境变量
+.env
+backend/.env
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Vite 构建产物
+frontend/dist/
+frontend/.vite/
+
+# 精灵立绘静态文件（体积太大，不纳入版本控制）
+backend/static/elves/*.png
+
+# 导入脚本中间产物
+backend/scripts/elves_raw.json
+backend/scripts/elves_data.json
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS
+.DS_Store
+Thumbs.db

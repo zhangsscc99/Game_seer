@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-deep: #0d0f1e;
+  --bg-card: #111428;
+  --bg-panel: #161b35;
+  --border-glow: rgba(240, 192, 64, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #app {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: #0d0f1e;
+  color: #e2e8f0;
+  font-family: 'Noto Sans SC', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 星空背景效果 */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(64, 128, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(155, 48, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(240, 192, 64, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#app {
+  position: relative;
+  z-index: 1;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111428;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #252d52;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f0c040;
+}
+
+/* 卡片通用样式 */
+@layer components {
+  .game-card {
+    @apply bg-space-800 border border-space-500 rounded-lg p-4;
+    @apply hover:border-accent/50 hover:shadow-glow-accent transition-all duration-300;
+  }
+
+  .game-btn {
+    @apply px-4 py-2 rounded font-medium transition-all duration-200;
+    @apply border border-accent/50 text-accent;
+    @apply hover:bg-accent hover:text-space-900 hover:shadow-glow-accent;
+    @apply active:scale-95;
+  }
+
+  .game-btn-primary {
+    @apply px-4 py-2 rounded font-medium transition-all duration-200;
+    @apply bg-accent text-space-900 font-bold;
+    @apply hover:bg-accent-light hover:shadow-glow-accent;
+    @apply active:scale-95;
+  }
+
+  .game-input {
+    @apply w-full bg-space-700 border border-space-400 rounded px-3 py-2;
+    @apply text-white placeholder-gray-500;
+    @apply focus:outline-none focus:border-accent/70 focus:ring-1 focus:ring-accent/30;
+    @apply transition-colors duration-200;
+  }
+
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg;
+    @apply text-gray-400 hover:text-white hover:bg-space-500;
+    @apply transition-all duration-200 cursor-pointer;
+  }
+
+  .nav-item-active {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg;
+    @apply text-accent bg-space-500 border-l-2 border-accent;
+    @apply transition-all duration-200;
+  }
+
+  .rarity-n {
+    @apply border-gray-500 shadow-none;
+  }
+
+  .rarity-r {
+    @apply border-rare shadow-glow-rare;
+  }
+
+  .rarity-sr {
+    @apply border-sr shadow-glow-sr;
+  }
+
+  .rarity-ssr {
+    @apply border-ssr shadow-glow-ssr;
+  }
+
+  .rarity-ur {
+    @apply border-ur shadow-glow-ur;
+  }
+
+  .section-title {
+    @apply text-lg font-bold text-accent mb-4 flex items-center gap-2;
+  }
+
+  .tag {
+    @apply inline-block px-2 py-0.5 rounded text-xs font-medium;
+  }
+}
+
+/* 发光边框动画 */
+@keyframes borderGlow {
+  0%, 100% { box-shadow: 0 0 5px rgba(240, 192, 64, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(240, 192, 64, 0.7); }
+}
+
+.glow-pulse {
+  animation: borderGlow 2s ease-in-out infinite;
+}
+
+/* 经验条光效 */
+.exp-bar-fill {
+  background: linear-gradient(90deg, #4080ff, #9b30ff, #f0c040);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* iOS 安全区域适配（刘海屏/底部横条） */
+.safe-area-inset-bottom {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+/* 触摸设备优化 */
+@media (hover: none) {
+  .game-btn:hover, .game-btn-primary:hover {
+    transform: none;
+  }
+}
+
+/* 移动端字体防缩放 */
+@media screen and (max-width: 768px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel
 
 from models.elf import ElfRarity, ElfElement
@@ -18,6 +18,14 @@ class ElfTemplateResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ElfPageResponse(BaseModel):
+    items: List[ElfTemplateResponse]
+    total: int
+    page: int
+    page_size: int
+    pages: int
 
 
 class ElfTemplateCreate(BaseModel):

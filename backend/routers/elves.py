@@ -1,4 +1,4 @@
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
@@ -7,7 +7,7 @@ from core.database import get_db
 from core.security import get_current_user
 from models.user import User
 from models.elf import ElfTemplate, UserElf, ElfRarity, ElfElement
-from schemas.elf import ElfTemplateResponse, UserElfResponse
+from schemas.elf import ElfTemplateResponse, ElfPageResponse, UserElfResponse
 
 router = APIRouter(prefix="/elves", tags=["elves"])
 
@@ -20,7 +20,7 @@ def get_my_elves(
     return db.query(UserElf).filter(UserElf.user_id == current_user.id).all()
 
 
-@router.get("/", response_model=Dict[str, Any])
+@router.get("/", response_model=ElfPageResponse)
 def list_elves(
     rarity: Optional[ElfRarity] = Query(None),
     element: Optional[ElfElement] = Query(None),
@@ -38,15 +38,15 @@ def list_elves(
     total = query.count()
     offset = (page - 1) * page_size
     items = query.order_by(ElfTemplate.id).offset(offset).limit(page_size).all()
-    pages = (total + page_size - 1) // page_size
+    pages = max(1, (total + page_size - 1) // page_size)
 
-    return {
-        "items": items,
-        "total": total,
-        "page": page,
-        "page_size": page_size,
-        "pages": pages,
-    }
+    return ElfPageResponse(
+        items=items,
+        total=total,
+        page=page,
+        page_size=page_size,
+        pages=pages,
+    )
 
 
 @router.get("/{elf_id}", response_model=ElfTemplateResponse)

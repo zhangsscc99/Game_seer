@@ -64,7 +64,7 @@
             :key="stat.key"
             class="bg-space-700 rounded-xl p-4 text-center border border-space-400 hover:border-accent/30 transition-colors"
           >
-            <span class="text-2xl block mb-2">{{ stat.icon }}</span>
+            <component :is="stat.icon" class="w-8 h-8 mx-auto mb-2 text-accent" />
             <p class="text-white font-bold text-xl">{{ stats?.[stat.key] ?? '-' }}</p>
             <p class="text-gray-400 text-xs mt-1">{{ stat.label }}</p>
           </div>
@@ -98,7 +98,7 @@
 
       <!-- 主战精灵 -->
       <div v-if="elfStore.activeElf" class="game-card">
-        <h2 class="section-title">⭐ 主战精灵</h2>
+        <h2 class="section-title flex items-center gap-2"><StarIcon class="w-5 h-5 text-accent" /> 主战精灵</h2>
         <div class="flex items-center gap-4">
           <div
             class="w-20 h-20 rounded-xl overflow-hidden border-2 flex-shrink-0"
@@ -140,6 +140,7 @@ import { getStats } from '@/api/profile'
 import api from '@/api'
 import ExpBar from '@/components/common/ExpBar.vue'
 import RarityBadge from '@/components/common/RarityBadge.vue'
+import { StarIcon, CheckCircleIcon, ClockIcon, BoltIcon, SparklesIcon } from '@heroicons/vue/24/solid'
 
 const userStore = useUserStore()
 const elfStore = useElfStore()
@@ -161,10 +162,10 @@ const activeBorderClass = computed(() => {
 })
 
 const statCards = [
-  { key: 'total_tasks_completed', icon: '✅', label: '总完成任务' },
-  { key: 'streak_days', icon: '🔥', label: '连续打卡' },
-  { key: 'focus_hours', icon: '⏱️', label: '专注时长(h)' },
-  { key: 'elves_collected', icon: '🐾', label: '精灵收集数' }
+  { key: 'total_tasks_completed', icon: CheckCircleIcon, label: '总完成任务' },
+  { key: 'streak_days', icon: BoltIcon, label: '连续打卡' },
+  { key: 'focus_hours', icon: ClockIcon, label: '专注时长(h)' },
+  { key: 'elves_collected', icon: SparklesIcon, label: '精灵收集数' }
 ]
 
 function formatDate(dateStr) {

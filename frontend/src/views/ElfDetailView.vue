@@ -16,7 +16,7 @@
 
     <!-- 错误 -->
     <div v-else-if="error" class="game-card border-red-500/30 text-center py-12">
-      <p class="text-red-400 text-lg mb-4">⚠️ {{ error }}</p>
+      <p class="text-red-400 text-lg mb-4 flex items-center justify-center gap-2"><ExclamationTriangleIcon class="w-5 h-5 flex-shrink-0" /> {{ error }}</p>
       <button @click="loadElf" class="game-btn">重新加载</button>
     </div>
 
@@ -51,7 +51,7 @@
             class="game-btn-primary px-6 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span v-if="settingActive" class="inline-block w-4 h-4 border-2 border-space-900 border-t-transparent rounded-full animate-spin mr-2"></span>
-            {{ userElf.is_active ? '✓ 当前主战' : '⚔️ 设为主战' }}
+            {{ userElf.is_active ? '✓ 当前主战' : '' }}<template v-if="!userElf.is_active"><ShieldCheckIcon class="w-4 h-4 mr-1 inline-block" />设为主战</template>
           </button>
         </div>
       </div>
@@ -60,13 +60,13 @@
       <div class="space-y-5">
         <!-- 精灵描述 -->
         <div class="game-card">
-          <h3 class="section-title">📖 精灵介绍</h3>
+          <h3 class="section-title flex items-center gap-2"><BookOpenIcon class="w-5 h-5" /> 精灵介绍</h3>
           <p class="text-gray-300 leading-relaxed">{{ elf.description || '这只精灵还没有详细介绍。' }}</p>
         </div>
 
         <!-- 基础属性 -->
         <div class="game-card">
-          <h3 class="section-title">⚔️ 基础属性</h3>
+          <h3 class="section-title flex items-center gap-2"><ChartBarIcon class="w-5 h-5" /> 基础属性</h3>
           <div class="grid grid-cols-2 gap-4">
             <div v-for="stat in baseStats" :key="stat.key" class="bg-space-700 rounded-lg p-3">
               <div class="flex justify-between items-center mb-2">
@@ -104,7 +104,7 @@
           </div>
         </div>
         <div v-else-if="elf.unlock_condition" class="game-card border-dashed border-gray-600">
-          <h3 class="text-gray-500 font-bold mb-2">🔒 解锁条件</h3>
+          <h3 class="text-gray-500 font-bold mb-2 flex items-center gap-2"><LockClosedIcon class="w-4 h-4" /> 解锁条件</h3>
           <p class="text-gray-400 text-sm">{{ elf.unlock_condition }}</p>
         </div>
 
@@ -137,6 +137,8 @@ import { getElf } from '@/api/elves'
 import { useElfStore } from '@/stores/elf'
 import RarityBadge from '@/components/common/RarityBadge.vue'
 import ExpBar from '@/components/common/ExpBar.vue'
+import { ChartBarIcon, ShieldCheckIcon, ExclamationTriangleIcon, LockClosedIcon } from '@heroicons/vue/24/outline'
+import { BookOpenIcon } from '@heroicons/vue/24/solid'
 
 const route = useRoute()
 const router = useRouter()

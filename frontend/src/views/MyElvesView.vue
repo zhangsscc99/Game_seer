@@ -1,13 +1,13 @@
 <template>
   <div class="space-y-6">
     <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-bold text-white">⭐ 我的精灵</h1>
+      <h1 class="text-2xl font-bold text-white flex items-center gap-2"><StarIcon class="w-7 h-7 text-accent" /> 我的精灵</h1>
       <span class="text-gray-400 text-sm">共 {{ elfStore.myElves.length }} 只</span>
     </div>
 
     <!-- 当前主战精灵 -->
     <div v-if="elfStore.activeElf" class="game-card border-accent/30">
-      <h2 class="section-title">⚔️ 主战精灵</h2>
+      <h2 class="section-title flex items-center gap-2"><ShieldCheckIcon class="w-5 h-5" /> 主战精灵</h2>
       <div class="flex items-center gap-6">
         <div
           class="w-24 h-24 rounded-xl overflow-hidden border-2 flex-shrink-0 animate-float"
@@ -45,14 +45,14 @@
 
     <!-- 错误 -->
     <div v-else-if="elfStore.error" class="game-card border-red-500/30 text-center py-8">
-      <p class="text-red-400 mb-3">⚠️ {{ elfStore.error }}</p>
+      <p class="text-red-400 mb-3 flex items-center justify-center gap-2"><ExclamationTriangleIcon class="w-5 h-5 flex-shrink-0" /> {{ elfStore.error }}</p>
       <button @click="elfStore.fetchMyElves()" class="game-btn">重试</button>
     </div>
 
     <!-- 精灵列表 -->
     <div v-else>
       <div v-if="elfStore.myElves.length === 0" class="py-16 text-center">
-        <span class="text-5xl block mb-3">🐾</span>
+        <SparklesIcon class="w-16 h-16 mx-auto mb-3 text-gray-600" />
         <p class="text-gray-400 mb-4">还没有精灵，完成任务来解锁精灵吧！</p>
         <router-link to="/tasks" class="game-btn-primary">前往任务</router-link>
       </div>
@@ -123,6 +123,8 @@ import { ref, computed, onMounted } from 'vue'
 import { useElfStore } from '@/stores/elf'
 import RarityBadge from '@/components/common/RarityBadge.vue'
 import ExpBar from '@/components/common/ExpBar.vue'
+import { SparklesIcon, ShieldCheckIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
+import { StarIcon } from '@heroicons/vue/24/solid'
 
 const elfStore = useElfStore()
 const settingId = ref(null)

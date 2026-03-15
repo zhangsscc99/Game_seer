@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6">
     <div>
-      <h1 class="text-2xl font-bold text-white">🏆 成就系统</h1>
+      <h1 class="text-2xl font-bold text-white flex items-center gap-2"><TrophySolid class="w-7 h-7 text-accent" /> 成就系统</h1>
       <p class="text-gray-400 text-sm mt-1">记录你的成长与荣耀</p>
     </div>
 
@@ -32,7 +32,7 @@
     </div>
 
     <div v-else-if="error" class="game-card border-red-500/30 text-center py-8">
-      <p class="text-red-400 mb-3">⚠️ {{ error }}</p>
+      <p class="text-red-400 mb-3 flex items-center justify-center gap-2"><ExclamationTriangleIcon class="w-5 h-5 flex-shrink-0" /> {{ error }}</p>
       <button @click="loadAchievements" class="game-btn">重试</button>
     </div>
 
@@ -52,7 +52,7 @@
 
       <!-- 成就列表 -->
       <div v-if="filteredAchievements.length === 0" class="py-12 text-center">
-        <span class="text-5xl block mb-3">🔍</span>
+        <MagnifyingGlassIcon class="w-16 h-16 mx-auto mb-3 text-gray-600" />
         <p class="text-gray-400">暂无成就</p>
       </div>
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -111,6 +111,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import api from '@/api'
+import { TrophyIcon, MagnifyingGlassIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
+import { TrophyIcon as TrophySolid } from '@heroicons/vue/24/solid'
 
 const achievements = ref([])
 const loading = ref(false)

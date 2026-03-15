@@ -93,14 +93,14 @@
 
     <!-- 错误状态 -->
     <div v-else-if="elfStore.error" class="game-card border-red-500/30 text-center py-8">
-      <p class="text-red-400 mb-3">⚠️ {{ elfStore.error }}</p>
+      <p class="text-red-400 mb-3 flex items-center justify-center gap-2"><ExclamationTriangleIcon class="w-5 h-5 flex-shrink-0" /> {{ elfStore.error }}</p>
       <button @click="loadElves" class="game-btn">重新加载</button>
     </div>
 
     <!-- 精灵网格 -->
     <div v-else>
       <div v-if="displayElves.length === 0" class="py-16 text-center">
-        <span class="text-5xl block mb-3">🔍</span>
+        <MagnifyingGlassIcon class="w-16 h-16 mx-auto mb-3 text-gray-600" />
         <p class="text-gray-400">没有符合条件的精灵</p>
       </div>
       <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -135,7 +135,7 @@ import { ref, computed, reactive, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useElfStore } from '@/stores/elf'
 import ElfCard from '@/components/elf/ElfCard.vue'
-import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/vue/24/solid'
+import { MagnifyingGlassIcon, XMarkIcon, ExclamationTriangleIcon, FunnelIcon } from '@heroicons/vue/24/solid'
 
 const router = useRouter()
 const elfStore = useElfStore()

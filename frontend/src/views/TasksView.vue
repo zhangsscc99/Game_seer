@@ -2,7 +2,10 @@
   <div class="space-y-6">
     <!-- 页面标题 -->
     <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-bold text-white">📋 任务中心</h1>
+      <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+          <ClipboardDocumentListIcon class="w-7 h-7 text-accent" />
+          任务中心
+        </h1>
       <button
         @click="showTaskForm = true"
         class="game-btn-primary flex items-center gap-2"
@@ -39,7 +42,7 @@
 
     <div v-else-if="taskStore.error" class="game-card border-red-500/30">
       <p class="text-red-400 flex items-center gap-2">
-        <span>⚠️</span>{{ taskStore.error }}
+        <ExclamationTriangleIcon class="w-5 h-5 flex-shrink-0" />{{ taskStore.error }}
       </p>
       <button @click="taskStore.fetchTasks()" class="game-btn mt-3 text-sm">重试</button>
     </div>
@@ -61,7 +64,7 @@
 
       <!-- 空状态 -->
       <div v-if="filteredTasks.length === 0" class="py-16 text-center">
-        <span class="text-5xl block mb-3">📭</span>
+        <InboxIcon class="w-16 h-16 mx-auto mb-3 text-gray-600" />
         <p class="text-gray-400 mb-4">暂无{{ activeTab !== 'all' ? tabs.find(t=>t.key===activeTab)?.label : '' }}任务</p>
         <button @click="showTaskForm = true" class="game-btn-primary">+ 创建任务</button>
       </div>
@@ -125,6 +128,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useTaskStore } from '@/stores/task'
 import TaskItem from '@/components/task/TaskItem.vue'
 import TaskForm from '@/components/task/TaskForm.vue'
+import { InboxIcon, ExclamationTriangleIcon, ClipboardDocumentListIcon, PlusIcon } from '@heroicons/vue/24/outline'
 
 const taskStore = useTaskStore()
 

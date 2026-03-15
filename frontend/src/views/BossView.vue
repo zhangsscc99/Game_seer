@@ -2,7 +2,7 @@
   <div class="space-y-6">
     <!-- 标题 -->
     <div>
-      <h1 class="text-2xl font-bold text-white">⚔️ Boss 挑战</h1>
+      <h1 class="text-2xl font-bold text-white flex items-center gap-2"><BoltSolid class="w-7 h-7 text-ssr" /> Boss 挑战</h1>
       <p class="text-gray-400 mt-1 text-sm">击败强大的 Boss，获取丰厚奖励和稀有精灵</p>
     </div>
 
@@ -14,14 +14,14 @@
 
     <!-- 错误 -->
     <div v-else-if="error" class="game-card border-red-500/30 text-center py-12">
-      <p class="text-red-400 mb-3">⚠️ {{ error }}</p>
+      <p class="text-red-400 mb-3 flex items-center justify-center gap-2"><ExclamationTriangleIcon class="w-5 h-5 flex-shrink-0" /> {{ error }}</p>
       <button @click="loadBosses" class="game-btn">重试</button>
     </div>
 
     <!-- Boss 网格 -->
     <div v-else>
       <div v-if="bosses.length === 0" class="py-16 text-center">
-        <span class="text-5xl block mb-3">👾</span>
+        <ShieldExclamationIcon class="w-16 h-16 mx-auto mb-3 text-gray-600" />
         <p class="text-gray-400">暂无可挑战的 Boss</p>
       </div>
 
@@ -121,6 +121,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { getBossList, challengeBoss } from '@/api/boss'
 import BossCard from '@/components/boss/BossCard.vue'
+import { BoltIcon, ExclamationTriangleIcon, ShieldExclamationIcon } from '@heroicons/vue/24/outline'
+import { BoltIcon as BoltSolid } from '@heroicons/vue/24/solid'
 
 const bosses = ref([])
 const loading = ref(false)

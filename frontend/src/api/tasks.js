@@ -1,11 +1,11 @@
 import api from './index'
 
 export const getTasks = (params = {}) => {
-  return api.get('/tasks', { params })
+  return api.get('/tasks/', { params })
 }
 
 export const createTask = (data) => {
-  return api.post('/tasks', data)
+  return api.post('/tasks/', data)
 }
 
 export const updateTask = (id, data) => {

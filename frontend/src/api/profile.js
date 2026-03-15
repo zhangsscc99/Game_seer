@@ -1,7 +1,7 @@
 import api from './index'
 
 export const getProfile = () => {
-  return api.get('/profile')
+  return api.get('/profile/')
 }
 
 export const getStats = () => {
@@ -9,5 +9,5 @@ export const getStats = () => {
 }
 
 export const updateProfile = (data) => {
-  return api.put('/profile', data)
+  return api.put('/profile/', data)
 }

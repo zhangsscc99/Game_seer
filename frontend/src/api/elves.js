@@ -1,8 +1,7 @@
 import api from './index'
 
-// 获取精灵图鉴（支持 rarity/element/page 筛选）
 export const getElves = (params = {}) => {
-  return api.get('/elves', { params })
+  return api.get('/elves/', { params })
 }
 
 export const getElf = (id) => {

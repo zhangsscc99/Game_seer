@@ -1,7 +1,7 @@
 import api from './index'
 
 export const getBossList = () => {
-  return api.get('/boss')
+  return api.get('/boss/')
 }
 
 export const getBoss = (id) => {

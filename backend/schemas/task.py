@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 
 from models.task import TaskType, TaskCategory, TaskImportance, TaskStatus
 
@@ -15,13 +15,15 @@ class TaskCreate(BaseModel):
     importance: TaskImportance = TaskImportance.normal
     due_date: Optional[datetime] = None
 
-    @validator("difficulty")
+    @field_validator("difficulty")
+    @classmethod
     def validate_difficulty(cls, v: int) -> int:
         if not 1 <= v <= 5:
             raise ValueError("difficulty must be between 1 and 5")
         return v
 
-    @validator("duration")
+    @field_validator("duration")
+    @classmethod
     def validate_duration(cls, v: int) -> int:
         if v <= 0:
             raise ValueError("duration must be positive")

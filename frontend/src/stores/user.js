@@ -11,8 +11,8 @@ export const useUserStore = defineStore('user', () => {
   const isLoggedIn = computed(() => !!token.value)
   const displayName = computed(() => user.value?.username || '指挥官')
   const level = computed(() => profile.value?.level || 1)
-  const currentExp = computed(() => profile.value?.current_exp || 0)
-  const nextLevelExp = computed(() => profile.value?.next_level_exp || 100)
+  const currentExp = computed(() => profile.value?.exp || 0)
+  const nextLevelExp = computed(() => (profile.value?.level || 1) * 100)
 
   async function login(email, password) {
     const response = await authApi.login(email, password)
@@ -25,12 +25,9 @@ export const useUserStore = defineStore('user', () => {
   }
 
   async function register(username, email, password) {
-    const response = await authApi.register(username, email, password)
-    const data = response.data
-    token.value = data.access_token
-    user.value = data.user
-    localStorage.setItem('token', data.access_token)
-    return data
+    await authApi.register(username, email, password)
+    // 注册后自动登录获取 token
+    return await login(email, password)
   }
 
   async function fetchProfile() {

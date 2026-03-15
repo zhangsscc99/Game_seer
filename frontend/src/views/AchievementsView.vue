@@ -147,7 +147,7 @@ async function loadAchievements() {
   loading.value = true
   error.value = null
   try {
-    const response = await api.get('/achievements')
+    const response = await api.get('/achievements/')
     achievements.value = response.data
   } catch (err) {
     error.value = err.response?.data?.detail || '加载成就失败'

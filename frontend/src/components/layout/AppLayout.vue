@@ -52,7 +52,7 @@
         <div class="flex items-center gap-3 bg-space-700 rounded-lg p-3 border border-space-400 hover:border-accent/40 transition-colors">
           <div class="w-12 h-12 rounded-lg overflow-hidden bg-space-600 flex-shrink-0">
             <img
-              :src="`http://localhost:8000/static/elves/${elfStore.activeElf.elf_id || elfStore.activeElf.id}.png`"
+              :src="elfStore.activeElf.image_path || `http://localhost:8000/static/elves/${elfStore.activeElf.elf_id || elfStore.activeElf.id}.png`"
               :alt="elfStore.activeElf.name"
               class="w-full h-full object-cover"
               @error="handleElfImgError"

@@ -29,7 +29,7 @@
           :class="rarityBorderClass"
         >
           <img
-            :src="`http://localhost:8000/static/elves/${elf.id}.png`"
+            :src="elf.image_path || `http://localhost:8000/static/elves/${elf.id}.png`"
             :alt="elf.name"
             class="w-full h-full object-cover"
             @error="handleImgError"

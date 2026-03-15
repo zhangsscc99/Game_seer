@@ -9,7 +9,7 @@ export const getElf = (id) => {
 }
 
 export const getMyElves = () => {
-  return api.get('/elves/mine')
+  return api.get('/elves/my')
 }
 
 export const setActiveElf = (id) => {

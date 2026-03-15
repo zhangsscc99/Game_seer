@@ -27,7 +27,7 @@
       <!-- 已解锁图片 -->
       <img
         v-if="elf.unlocked"
-        :src="`http://localhost:8000/static/elves/${elf.id}.png`"
+        :src="elf.image_path || `http://localhost:8000/static/elves/${elf.id}.png`"
         :alt="elf.name"
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 img-main"
         @error="handleImgError"
@@ -39,7 +39,7 @@
       <!-- 未解锁 -->
       <div v-if="!elf.unlocked" class="locked-overlay absolute inset-0 flex flex-col items-center justify-center">
         <img
-          :src="`http://localhost:8000/static/elves/${elf.id}.png`"
+          :src="elf.image_path || `http://localhost:8000/static/elves/${elf.id}.png`"
           :alt="'???'"
           class="w-full h-full object-cover absolute inset-0 filter-silhouette"
           @error="handleImgError"

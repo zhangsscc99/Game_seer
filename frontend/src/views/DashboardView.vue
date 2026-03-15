@@ -126,7 +126,7 @@
               style="width: 160px; height: 160px;"
             >
               <img
-                :src="`http://localhost:8000/static/elves/${elfStore.activeElf.elf_id || elfStore.activeElf.id}.png`"
+                :src="elfStore.activeElf.image_path || `http://localhost:8000/static/elves/${elfStore.activeElf.elf_id || elfStore.activeElf.id}.png`"
                 :alt="elfStore.activeElf.name"
                 class="w-full h-full object-cover"
                 @error="handleElfImgError"

@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
@@ -17,32 +17,36 @@ def get_my_elves(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    """Get the current user's collected elves."""
-    return (
-        db.query(UserElf)
-        .filter(UserElf.user_id == current_user.id)
-        .all()
-    )
+    return db.query(UserElf).filter(UserElf.user_id == current_user.id).all()
 
 
-@router.get("/", response_model=List[ElfTemplateResponse])
+@router.get("/", response_model=Dict[str, Any])
 def list_elves(
     rarity: Optional[ElfRarity] = Query(None),
     element: Optional[ElfElement] = Query(None),
     page: int = Query(1, ge=1),
-    page_size: int = Query(20, ge=1, le=100),
+    page_size: int = Query(24, ge=1, le=100),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    """Get the elf compendium with optional rarity/element filters and pagination."""
     query = db.query(ElfTemplate)
     if rarity:
         query = query.filter(ElfTemplate.rarity == rarity)
     if element:
         query = query.filter(ElfTemplate.element == element)
 
+    total = query.count()
     offset = (page - 1) * page_size
-    return query.offset(offset).limit(page_size).all()
+    items = query.order_by(ElfTemplate.id).offset(offset).limit(page_size).all()
+    pages = (total + page_size - 1) // page_size
+
+    return {
+        "items": items,
+        "total": total,
+        "page": page,
+        "page_size": page_size,
+        "pages": pages,
+    }
 
 
 @router.get("/{elf_id}", response_model=ElfTemplateResponse)

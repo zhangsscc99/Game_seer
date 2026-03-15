@@ -14,7 +14,11 @@ sys.path.insert(0, str(BACKEND_DIR))
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-# 导入模型（触发 Base.metadata 注册）
+# 导入模型（触发 Base.metadata 注册，必须全部导入才能解析关系）
+import models.user   # noqa: F401
+import models.task   # noqa: F401
+import models.boss   # noqa: F401
+import models.achievement  # noqa: F401
 from models.elf import ElfTemplate, ElfRarity, ElfElement  # noqa: E402
 from core.database import Base  # noqa: E402
 

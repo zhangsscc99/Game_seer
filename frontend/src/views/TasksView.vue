@@ -137,10 +137,12 @@ const showTaskForm = ref(false)
 const reward = ref(null)
 
 const tabs = [
-  { key: 'all', label: '全部' },
-  { key: 'daily', label: '日常' },
-  { key: 'main', label: '主线' },
-  { key: 'challenge', label: '挑战' }
+  { key: 'all',      label: '全部' },
+  { key: 'study',    label: '学习' },
+  { key: 'work',     label: '工作' },
+  { key: 'habit',    label: '习惯' },
+  { key: 'health',   label: '健康' },
+  { key: 'creative', label: '创作' },
 ]
 
 const filteredTasks = computed(() => {

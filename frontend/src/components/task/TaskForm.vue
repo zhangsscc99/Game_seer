@@ -28,10 +28,11 @@
     <div>
       <label class="block text-gray-400 text-sm mb-1">分类</label>
       <select v-model="form.category" class="game-input">
-        <option value="daily">日常</option>
-        <option value="main">主线</option>
-        <option value="challenge">挑战</option>
-        <option value="side">支线</option>
+        <option value="study">学习</option>
+        <option value="work">工作</option>
+        <option value="habit">习惯</option>
+        <option value="health">健康</option>
+        <option value="creative">创作</option>
       </select>
     </div>
 
@@ -80,7 +81,7 @@ import { computed } from 'vue'
 const form = reactive({
   title: '',
   description: '',
-  category: 'daily',
+  category: 'study',
 })
 
 const errors = reactive({ title: '' })
@@ -93,7 +94,7 @@ watch(() => props.task, (task) => {
       category: task.category || 'daily',
     })
   } else {
-    Object.assign(form, { title: '', description: '', category: 'daily' })
+    Object.assign(form, { title: '', description: '', category: 'study' })
   }
 }, { immediate: true })
 

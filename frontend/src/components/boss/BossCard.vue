@@ -13,10 +13,10 @@
     <!-- Boss图片 -->
     <div class="relative bg-space-800 aspect-video overflow-hidden">
       <img
-        v-if="boss.image_url"
-        :src="boss.image_url"
+        v-if="boss.image_path"
+        :src="boss.image_path"
         :alt="boss.name"
-        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+        class="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-110"
         @error="handleImgError"
       />
       <div v-else class="w-full h-full flex items-center justify-center">
@@ -55,10 +55,10 @@
       <p class="text-gray-400 text-xs mb-3 line-clamp-2">{{ boss.description || '传说中的强大Boss，等待着勇敢的指挥官前来挑战。' }}</p>
 
       <!-- 前置条件进度 -->
-      <div v-if="!boss.unlocked && boss.requirement" class="mt-2">
+      <div v-if="!boss.unlocked" class="mt-2">
         <div class="flex justify-between items-center mb-1">
-          <span class="text-gray-500 text-xs">{{ boss.requirement.description }}</span>
-          <span class="text-gray-400 text-xs">{{ boss.requirement.current }}/{{ boss.requirement.target }}</span>
+          <span class="text-gray-500 text-xs">完成任务解锁</span>
+          <span class="text-gray-400 text-xs">{{ boss.user_tasks_completed }}/{{ boss.required_tasks }}</span>
         </div>
         <div class="w-full h-1.5 bg-space-700 rounded-full overflow-hidden">
           <div
@@ -71,15 +71,14 @@
       <!-- 奖励预览 -->
       <div v-if="boss.unlocked && !boss.defeated" class="flex items-center gap-3 mt-3">
         <div class="flex items-center gap-1 text-xs">
-          <span class="text-accent">+{{ boss.exp_reward || 100 }}</span>
+          <span class="text-accent">+{{ boss.reward_exp }}</span>
           <span class="text-gray-500">EXP</span>
         </div>
         <div class="flex items-center gap-1 text-xs">
-          <span class="text-yellow-400">+{{ boss.coin_reward || 50 }}</span>
+          <span class="text-yellow-400">+{{ boss.reward_coins }}</span>
           <span class="text-gray-500">金币</span>
         </div>
-        <div v-if="boss.elf_reward" class="flex items-center gap-1 text-xs">
-          <span class="text-ur">🐾</span>
+        <div v-if="boss.reward_elf" class="flex items-center gap-1 text-xs">
           <span class="text-ur">解锁精灵</span>
         </div>
       </div>
@@ -108,9 +107,8 @@ const props = defineProps({
 defineEmits(['challenge'])
 
 const requirementPercent = computed(() => {
-  const req = props.boss.requirement
-  if (!req || !req.target) return 0
-  return Math.min(100, Math.round((req.current / req.target) * 100))
+  if (!props.boss.required_tasks) return 0
+  return Math.min(100, Math.round((props.boss.user_tasks_completed / props.boss.required_tasks) * 100))
 })
 
 function handleImgError(e) {

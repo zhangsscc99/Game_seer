@@ -41,6 +41,10 @@ class BossResponse(BaseModel):
     reward_elf_id: Optional[int]
     is_repeatable: bool
     reward_elf: Optional[ElfTemplateResponse]
+    # 用户维度字段（由路由层注入）
+    unlocked: bool = False
+    defeated: bool = False
+    user_tasks_completed: int = 0
 
     class Config:
         from_attributes = True

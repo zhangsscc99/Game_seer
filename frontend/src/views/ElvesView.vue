@@ -184,9 +184,7 @@ async function changePage(newPage) {
 }
 
 function handleElfClick(elf) {
-  if (elf.unlocked) {
-    router.push(`/elves/${elf.id}`)
-  }
+  router.push(`/elves/${elf.id}`)
 }
 
 onMounted(() => {

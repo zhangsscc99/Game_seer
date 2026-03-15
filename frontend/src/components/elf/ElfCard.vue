@@ -24,9 +24,8 @@
 
     <!-- 图片区域 -->
     <div class="relative aspect-square overflow-hidden bg-space-700">
-      <!-- 已解锁图片 -->
+      <!-- 精灵图片（图鉴全部可见） -->
       <img
-        v-if="elf.unlocked"
         :src="elf.image_path || `http://localhost:8000/static/elves/${elf.id}.png`"
         :alt="elf.name"
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 img-main"
@@ -34,24 +33,11 @@
       />
 
       <!-- SR 扫描光线（从上到下） -->
-      <div v-if="rarity === 'SR' && elf.unlocked" class="sr-scan-line"></div>
+      <div v-if="rarity === 'SR'" class="sr-scan-line"></div>
 
-      <!-- 未解锁 -->
-      <div v-if="!elf.unlocked" class="locked-overlay absolute inset-0 flex flex-col items-center justify-center">
-        <img
-          :src="elf.image_path || `http://localhost:8000/static/elves/${elf.id}.png`"
-          :alt="'???'"
-          class="w-full h-full object-cover absolute inset-0 filter-silhouette"
-          @error="handleImgError"
-        />
-        <div class="relative z-10 flex flex-col items-center gap-1">
-          <span class="locked-question font-mono font-black tracking-widest">???</span>
-          <div class="lock-icon-wrap">
-            <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
-            </svg>
-          </div>
-        </div>
+      <!-- 已收集角标 -->
+      <div v-if="elf.collected" class="absolute bottom-2 left-2 z-20 bg-green-500/90 rounded-full px-1.5 py-0.5 flex items-center gap-1">
+        <span class="text-white text-xs font-bold">✓ 已收集</span>
       </div>
 
       <!-- 悬停发光遮罩 -->
@@ -71,16 +57,16 @@
       </div>
 
       <!-- 精灵名 -->
-      <p class="font-semibold text-sm truncate leading-tight" :class="elf.unlocked ? 'text-white' : 'text-gray-600'">
-        {{ elf.unlocked ? elf.name : '???' }}
+      <p class="font-semibold text-sm truncate leading-tight text-white">
+        {{ elf.name }}
       </p>
 
-      <!-- 等级 / 解锁条件 -->
+      <!-- 等级（已收集时显示） -->
       <div class="mt-1 flex items-center justify-between">
-        <span v-if="elf.unlocked && elf.level" class="level-text font-black tracking-widest text-xs text-accent">
+        <span v-if="elf.collected && elf.level" class="level-text font-black tracking-widest text-xs text-accent">
           LV.{{ String(elf.level).padStart(2, '0') }}
         </span>
-        <span v-if="!elf.unlocked" class="text-gray-600 text-xs truncate">{{ elf.unlock_condition || '完成任务解锁' }}</span>
+        <span v-else class="text-gray-500 text-xs truncate">{{ elf.unlock_condition || '完成任务解锁' }}</span>
       </div>
     </div>
   </div>

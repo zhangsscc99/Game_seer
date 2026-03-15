@@ -31,10 +31,19 @@ def list_bosses(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    profile = db.query(UserProfile).filter(UserProfile.user_id == current_user.id).first()
-    tasks_done = profile.total_tasks_completed if profile else 0
     bosses = db.query(Boss).all()
-    return [_enrich_boss(b, current_user.id, tasks_done, db) for b in bosses]
+    result = []
+    for boss in bosses:
+        data = {c.name: getattr(boss, c.name) for c in boss.__table__.columns}
+        data["reward_elf"] = boss.reward_elf
+        data["unlocked"] = True  # 所有 Boss 直接可挑战
+        data["user_tasks_completed"] = 0
+        user_boss = db.query(UserBoss).filter(
+            UserBoss.user_id == current_user.id, UserBoss.boss_id == boss.id
+        ).first()
+        data["defeated"] = bool(user_boss and user_boss.status == BossStatus.defeated)
+        result.append(data)
+    return result
 
 
 @router.get("/{boss_id}", response_model=BossResponse)

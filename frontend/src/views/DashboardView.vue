@@ -203,10 +203,10 @@
             <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
           </div>
           <p class="text-gray-500 text-xs font-mono tracking-widest flex-1">
-            MISSION_TERMINAL · PENDING QUEUE
+            任务终端 · 待完成队列
           </p>
           <router-link to="/tasks" class="text-rare text-xs font-mono hover:text-accent transition-colors">
-            VIEW_ALL →
+            查看全部 →
           </router-link>
         </div>
 
@@ -214,15 +214,15 @@
         <div v-if="taskStore.loading" class="flex-1 flex items-center justify-center">
           <div class="flex flex-col items-center gap-3">
             <div class="w-6 h-6 border border-accent border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-gray-600 text-xs font-mono">LOADING MISSIONS...</p>
+            <p class="text-gray-600 text-xs font-mono">加载中...</p>
           </div>
         </div>
 
         <!-- 无任务 -->
         <div v-else-if="recentPendingTasks.length === 0" class="flex-1 flex items-center justify-center">
           <div class="text-center">
-            <p class="text-green-400 font-mono text-sm mb-2">[ ALL MISSIONS COMPLETE ]</p>
-            <p class="text-gray-600 text-xs font-mono">系统状态：今日任务已清空</p>
+            <p class="text-green-400 font-mono text-sm mb-2">[ 今日任务全部完成 ]</p>
+            <p class="text-gray-600 text-xs font-mono">继续保持，明天再接再厉</p>
           </div>
         </div>
 
@@ -236,7 +236,7 @@
           >
             <span class="terminal-cursor text-green-400 font-mono text-sm flex-shrink-0 group-hover:animate-blink">▶</span>
             <span class="text-gray-500 font-mono text-xs flex-shrink-0">
-              [MISSION-{{ String(idx + 1).padStart(3, '0') }}]
+              [任务-{{ String(idx + 1).padStart(3, '0') }}]
             </span>
             <span class="text-gray-300 font-mono text-sm flex-1 truncate">{{ task.title }}</span>
             <span class="terminal-dots flex-shrink-0 text-space-500 font-mono text-xs hidden sm:inline">
@@ -251,8 +251,8 @@
         <!-- 终端输入提示行 -->
         <div class="mt-4 pt-3 border-t border-space-700">
           <p class="text-green-400/50 font-mono text-xs">
-            <span class="text-green-400">$</span> system ready ·
-            <span class="text-accent">{{ completedCount }}</span> missions completed today
+            <span class="text-green-400">›</span> 系统就绪 ·
+            今日已完成 <span class="text-accent">{{ completedCount }}</span> 个任务
             <span class="terminal-blink-cursor">_</span>
           </p>
         </div>
@@ -260,46 +260,8 @@
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════
-         SECTION 3 · 快捷入口（斜切卡片）
+         SECTION 3 · 快捷入口（已移除）
     ════════════════════════════════════════════════════════════════ -->
-    <div
-      class="hud-section px-8 py-10"
-      :style="{ transitionDelay: '200ms' }"
-    >
-      <div class="flex items-center gap-4 mb-6">
-        <p class="text-gray-600 text-xs font-orbitron tracking-[0.3em] uppercase">Quick Access</p>
-        <div class="flex-1 h-px bg-gradient-to-r from-space-600 to-transparent"></div>
-      </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <router-link
-          v-for="(item, idx) in quickLinks"
-          :key="item.path"
-          :to="item.path"
-          class="clip-card group relative p-5 bg-space-800 border border-space-500 hover:border-accent/60 transition-all duration-300 block"
-          :style="{ animationDelay: (idx * 60) + 'ms' }"
-        >
-          <!-- hover 发光层 -->
-          <div class="clip-card-glow absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-               :style="{ background: `radial-gradient(ellipse at 30% 30%, ${item.glowColor}18 0%, transparent 70%)` }">
-          </div>
-
-          <div class="relative z-10">
-            <p class="font-orbitron text-3xl font-black mb-3 leading-none"
-               :style="{ color: item.glowColor, textShadow: `0 0 15px ${item.glowColor}60` }">
-              {{ item.num }}
-            </p>
-            <p class="text-white text-sm font-bold mb-1 group-hover:text-accent transition-colors">{{ item.label }}</p>
-            <p class="text-gray-600 text-xs font-mono">{{ item.desc }}</p>
-          </div>
-
-          <!-- 斜角装饰线 -->
-          <div class="absolute top-0 right-0 w-4 h-4 border-t border-r"
-               :style="{ borderColor: item.glowColor, opacity: 0.5 }">
-          </div>
-        </router-link>
-      </div>
-    </div>
 
   </div>
 </template>

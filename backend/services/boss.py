@@ -5,7 +5,34 @@ from sqlalchemy.orm import Session
 from models.boss import Boss, UserBoss, BossStatus
 from models.user import User, UserProfile
 from models.elf import UserElf
+from models.achievement import Achievement, UserAchievement, ConditionType
 from services.reward import apply_reward
+
+
+def check_and_unlock_achievements(user_id: int, db: Session):
+    """Check boss_defeat achievements and unlock any newly earned ones."""
+    defeated_count = (
+        db.query(UserBoss)
+        .filter(UserBoss.user_id == user_id, UserBoss.status == BossStatus.defeated)
+        .count()
+    )
+    boss_achievements = (
+        db.query(Achievement)
+        .filter(Achievement.condition_type == ConditionType.boss_defeat)
+        .all()
+    )
+    already_unlocked = {
+        ua.achievement_id
+        for ua in db.query(UserAchievement).filter(UserAchievement.user_id == user_id).all()
+    }
+    newly_unlocked = []
+    for ach in boss_achievements:
+        if ach.id not in already_unlocked and defeated_count >= ach.condition_value:
+            db.add(UserAchievement(user_id=user_id, achievement_id=ach.id))
+            newly_unlocked.append(ach.name)
+    if newly_unlocked:
+        db.commit()
+    return newly_unlocked
 
 
 def get_or_create_user_boss(user_id: int, boss_id: int, db: Session) -> UserBoss:
@@ -82,17 +109,13 @@ def challenge_boss(user_id: int, boss_id: int, db: Session) -> dict:
             .first()
         )
         if not existing_elf:
-            new_elf = UserElf(
-                user_id=user_id,
-                template_id=boss.reward_elf_id,
-                level=1,
-                exp=0,
-                bond=0,
-                is_active=False,
-            )
+            new_elf = UserElf(user_id=user_id, template_id=boss.reward_elf_id, level=1, exp=0, bond=0, is_active=False)
             db.add(new_elf)
             db.commit()
             elf_unlocked = boss.reward_elf
+
+    # 检查并解锁成就
+    check_and_unlock_achievements(user_id, db)
 
     db.refresh(user_boss)
     return {

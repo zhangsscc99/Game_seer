@@ -32,19 +32,12 @@
           <span v-for="i in (boss.difficulty || 3)" :key="i" class="text-ssr text-xs">★</span>
         </div>
       </div>
-
-      <!-- Boss类型标签 -->
-      <div class="absolute top-2 left-2">
-        <span class="bg-ssr/80 text-white text-xs px-2 py-0.5 rounded font-bold">
-          {{ boss.boss_type || 'BOSS' }}
-        </span>
-      </div>
     </div>
 
     <!-- Boss信息 -->
     <div class="p-4 bg-space-800">
       <h3 class="text-white font-bold text-base mb-1">{{ boss.name }}</h3>
-      <p class="text-gray-400 text-xs mb-3 line-clamp-2">{{ boss.description || '传说中的强大Boss，等待着勇敢的指挥官前来挑战。' }}</p>
+      <p class="text-gray-400 text-xs mb-3 line-clamp-2">{{ bossDesc }}</p>
 
       <!-- 奖励预览 -->
       <div v-if="!boss.defeated" class="flex items-center gap-3 mt-3">
@@ -87,6 +80,12 @@ defineEmits(['challenge'])
 const requirementPercent = computed(() => {
   if (!props.boss.required_tasks) return 0
   return Math.min(100, Math.round((props.boss.user_tasks_completed / props.boss.required_tasks) * 100))
+})
+
+// 去掉描述里"完成X个任务后可挑战"这类文字
+const bossDesc = computed(() => {
+  const desc = props.boss.description || '传说中的强大精灵，等待着勇敢的指挥官前来挑战。'
+  return desc.replace(/。?完成\s*\d+\s*个任务后可挑战[^。]*。?/g, '').trim() || desc
 })
 
 function handleImgError(e) {

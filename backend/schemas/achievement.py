@@ -35,6 +35,9 @@ class AchievementResponse(BaseModel):
     reward_elf_id: Optional[int]
     reward_title: Optional[str]
     reward_elf: Optional[ElfTemplateResponse]
+    # 用户维度
+    unlocked: bool = False
+    earned_at: Optional[datetime] = None
 
     class Config:
         from_attributes = True

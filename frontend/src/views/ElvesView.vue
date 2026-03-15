@@ -84,7 +84,7 @@
         <span class="text-5xl block mb-3">🔍</span>
         <p class="text-gray-400">没有符合条件的精灵</p>
       </div>
-      <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+      <div v-else class="grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(160px, 1fr))">
         <ElfCard
           v-for="elf in displayElves"
           :key="elf.id"

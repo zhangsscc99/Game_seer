@@ -37,6 +37,18 @@
         </div>
       </div>
 
+      <!-- 解锁额度 -->
+      <div class="game-card flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <SparklesIcon class="w-8 h-8 text-accent" />
+          <div>
+            <p class="text-white font-bold text-2xl">{{ userStore.profile?.unlock_credits ?? 0 }}</p>
+            <p class="text-gray-400 text-sm">可用解锁额度</p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-xs text-right">完成任务 +1 额度<br>用于图鉴解锁精灵</p>
+      </div>
+
       <!-- 统计数据 -->
       <div class="game-card">
         <h2 class="section-title">📊 统计数据</h2>

@@ -33,6 +33,7 @@ class UserProfile(Base):
     streak_days = Column(Integer, default=0)
     last_active_date = Column(DateTime, nullable=True)
     total_tasks_completed = Column(Integer, default=0)
+    unlock_credits = Column(Integer, default=0)   # 可用解锁额度
     title = Column(String, default="新手训练师")
     created_at = Column(DateTime, default=datetime.utcnow)
 

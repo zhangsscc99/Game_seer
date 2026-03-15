@@ -103,9 +103,37 @@
             </div>
           </div>
         </div>
-        <div v-else-if="elf.unlock_condition" class="game-card border-dashed border-gray-600">
-          <h3 class="text-gray-500 font-bold mb-2 flex items-center gap-2"><LockClosedIcon class="w-4 h-4" /> 解锁条件</h3>
-          <p class="text-gray-400 text-sm">{{ elf.unlock_condition }}</p>
+        <!-- 解锁 / 已拥有 -->
+        <div v-if="userElf" class="game-card border-green-500/30">
+          <h3 class="text-green-400 font-bold mb-1 flex items-center gap-2">
+            <CheckCircleIcon class="w-4 h-4" /> 已收集
+          </h3>
+          <p class="text-gray-400 text-sm">Lv.{{ userElf.level }} · 好感度 {{ userElf.bond }}</p>
+        </div>
+        <div v-else class="game-card border-accent/30">
+          <h3 class="text-gray-400 font-bold mb-3 flex items-center gap-2">
+            <LockClosedIcon class="w-4 h-4" /> 解锁精灵
+          </h3>
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <p class="text-white text-sm">解锁费用：<span class="text-accent font-bold text-lg">{{ elf.unlock_cost }} 额度</span></p>
+              <p class="text-gray-500 text-xs mt-0.5">当前剩余：{{ userStore.profile?.unlock_credits ?? 0 }} 额度</p>
+            </div>
+            <div class="text-right text-xs text-gray-600">
+              <p>完成1个任务</p>
+              <p>= +1 额度</p>
+            </div>
+          </div>
+          <button
+            @click="handleUnlock"
+            :disabled="unlocking || (userStore.profile?.unlock_credits ?? 0) < elf.unlock_cost"
+            class="w-full game-btn-primary py-2 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            <span v-if="unlocking" class="w-4 h-4 border-2 border-space-900 border-t-transparent rounded-full animate-spin"></span>
+            <span v-else><SparklesIcon class="w-4 h-4 inline-block" /></span>
+            {{ unlocking ? '解锁中...' : `花费 ${elf.unlock_cost} 额度解锁` }}
+          </button>
+          <p v-if="unlockError" class="text-red-400 text-xs mt-2 text-center">{{ unlockError }}</p>
         </div>
 
         <!-- 技能列表 -->
@@ -134,23 +162,28 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getElf } from '@/api/elves'
+import api from '@/api'
 import { useElfStore } from '@/stores/elf'
+import { useUserStore } from '@/stores/user'
 import RarityBadge from '@/components/common/RarityBadge.vue'
 import ExpBar from '@/components/common/ExpBar.vue'
-import { ChartBarIcon, ShieldCheckIcon, ExclamationTriangleIcon, LockClosedIcon } from '@heroicons/vue/24/outline'
-import { BookOpenIcon } from '@heroicons/vue/24/solid'
+import { ChartBarIcon, ShieldCheckIcon, ExclamationTriangleIcon, LockClosedIcon, CheckCircleIcon } from '@heroicons/vue/24/outline'
+import { BookOpenIcon, SparklesIcon } from '@heroicons/vue/24/solid'
 
 const route = useRoute()
 const router = useRouter()
 const elfStore = useElfStore()
+const userStore = useUserStore()
 
 const elf = ref(null)
 const loading = ref(false)
 const error = ref(null)
 const settingActive = ref(false)
+const unlocking = ref(false)
+const unlockError = ref('')
 
 const userElf = computed(() =>
-  elfStore.myElves.find(e => (e.elf_id || e.id) === Number(route.params.id))
+  elfStore.myElves.find(e => e.template_id === Number(route.params.id))
 )
 
 const rarityBorderClass = computed(() => {
@@ -211,6 +244,22 @@ async function handleSetActive() {
   } finally {
     settingActive.value = false
   }
+}
+
+async function handleUnlock() {
+  if (!elf.value) return
+  unlocking.value = true
+  unlockError.value = ''
+  try {
+    await api.post(`/elves/${elf.value.id}/unlock`)
+    // 刷新我的精灵列表 + 用户资料（更新额度）
+    await Promise.all([elfStore.fetchMyElves(), userStore.fetchProfile()])
+  } catch (err) {
+    unlockError.value = err.response?.data?.detail || '解锁失败，请稍后重试'
+  } finally {
+    unlocking.value = false
+  }
+}
 }
 
 function handleImgError(e) {

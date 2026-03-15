@@ -66,7 +66,7 @@
         <span v-if="elf.collected && elf.level" class="level-text font-black tracking-widest text-xs text-accent">
           LV.{{ String(elf.level).padStart(2, '0') }}
         </span>
-        <span v-else class="text-gray-500 text-xs truncate">{{ elf.unlock_condition || '完成任务解锁' }}</span>
+        <span v-else class="text-gray-500 text-xs">{{ elf.unlock_cost ?? '?' }} 额度解锁</span>
       </div>
     </div>
   </div>

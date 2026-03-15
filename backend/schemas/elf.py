@@ -15,6 +15,7 @@ class ElfTemplateResponse(BaseModel):
     evolves_from_id: Optional[int]
     unlock_condition: Optional[str]
     description: Optional[str]
+    unlock_cost: int = 5   # 解锁所需额度
 
     class Config:
         from_attributes = True

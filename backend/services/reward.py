@@ -41,6 +41,7 @@ def apply_reward(user_id: int, exp: int, coins: int, db: Session) -> Dict:
     profile.exp += exp
     profile.coins += coins
     profile.total_tasks_completed += 1
+    profile.unlock_credits += 1   # 每完成1个任务 +1 解锁额度
 
     # Level up logic: each level requires level * EXP_PER_LEVEL exp
     leveled_up = False

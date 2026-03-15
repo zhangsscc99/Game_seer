@@ -38,6 +38,7 @@ class UserProfileResponse(BaseModel):
     streak_days: int
     last_active_date: Optional[datetime]
     total_tasks_completed: int
+    unlock_credits: int = 0
     title: str
     created_at: datetime
 

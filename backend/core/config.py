@@ -5,7 +5,7 @@ from functools import lru_cache
 class Settings(BaseSettings):
     SECRET_KEY: str = "fallback-secret-key-please-change-in-production"
     DATABASE_URL: str = "sqlite:///./game_seer.db"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 10080  # 7 天
     ALGORITHM: str = "HS256"
 
     class Config:

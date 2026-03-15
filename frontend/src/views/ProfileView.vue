@@ -182,7 +182,7 @@ async function loadData() {
   try {
     const [statsRes, achRes] = await Promise.allSettled([
       getStats(),
-      api.get('/achievements?limit=6&unlocked=true')
+      api.get('/achievements/?limit=6&unlocked=true')
     ])
     if (statsRes.status === 'fulfilled') {
       stats.value = statsRes.value.data

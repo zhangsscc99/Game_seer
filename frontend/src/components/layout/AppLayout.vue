@@ -94,7 +94,7 @@
             :class="isActive ? 'nav-item-active' : 'nav-item'"
             class="cursor-pointer"
           >
-            <span class="text-xl">{{ item.icon }}</span>
+            <component :is="item.icon" class="w-5 h-5 flex-shrink-0" />
             <span class="text-sm font-medium">{{ item.label }}</span>
             <span
               v-if="item.badge"
@@ -110,7 +110,7 @@
           @click="handleLogout"
           class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-900/20 transition-all duration-200"
         >
-          <span class="text-xl">🚪</span>
+          <ArrowRightOnRectangleIcon class="w-5 h-5" />
           <span class="text-sm">退出登录</span>
         </button>
       </div>
@@ -150,7 +150,7 @@
             class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg transition-colors"
             :class="isActive ? 'text-accent' : 'text-gray-500'"
           >
-            <span class="text-xl leading-none">{{ item.icon }}</span>
+            <component :is="item.icon" class="w-5 h-5" />
             <span class="text-xs leading-none">{{ item.label }}</span>
             <span
               v-if="item.badge"
@@ -170,6 +170,16 @@ import { useUserStore } from '@/stores/user'
 import { useElfStore } from '@/stores/elf'
 import { useTaskStore } from '@/stores/task'
 import ExpBar from '@/components/common/ExpBar.vue'
+import {
+  HomeIcon,
+  ClipboardDocumentListIcon,
+  BookOpenIcon,
+  SparklesIcon,
+  BoltIcon,
+  TrophyIcon,
+  UserIcon,
+  ArrowRightOnRectangleIcon,
+} from '@heroicons/vue/24/solid'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -200,22 +210,22 @@ const elfExpPercent = computed(() => {
 const pendingCount = computed(() => taskStore.pendingTasks.length)
 
 const navItems = computed(() => [
-  { path: '/', icon: '🏠', label: '指挥台', badge: null },
-  { path: '/tasks', icon: '📋', label: '任务中心', badge: pendingCount.value > 0 ? pendingCount.value : null },
-  { path: '/elves', icon: '📖', label: '精灵图鉴', badge: null },
-  { path: '/my-elves', icon: '⭐', label: '我的精灵', badge: null },
-  { path: '/boss', icon: '⚔️', label: 'Boss挑战', badge: null },
-  { path: '/achievements', icon: '🏆', label: '成就', badge: null },
-  { path: '/profile', icon: '👤', label: '个人资料', badge: null }
+  { path: '/',            icon: HomeIcon,                  label: '指挥台',   badge: null },
+  { path: '/tasks',       icon: ClipboardDocumentListIcon, label: '任务中心', badge: pendingCount.value > 0 ? pendingCount.value : null },
+  { path: '/elves',       icon: BookOpenIcon,              label: '精灵图鉴', badge: null },
+  { path: '/my-elves',    icon: SparklesIcon,              label: '我的精灵', badge: null },
+  { path: '/boss',        icon: BoltIcon,                  label: 'Boss挑战', badge: null },
+  { path: '/achievements',icon: TrophyIcon,                label: '成就',     badge: null },
+  { path: '/profile',     icon: UserIcon,                  label: '个人资料', badge: null },
 ])
 
 // 移动端底部导航只显示5个核心入口
 const mobileNavItems = computed(() => [
-  { path: '/', icon: '🏠', label: '首页', badge: null },
-  { path: '/tasks', icon: '📋', label: '任务', badge: pendingCount.value > 0 ? pendingCount.value : null },
-  { path: '/elves', icon: '📖', label: '图鉴', badge: null },
-  { path: '/boss', icon: '⚔️', label: 'Boss', badge: null },
-  { path: '/profile', icon: '👤', label: '我的', badge: null }
+  { path: '/',      icon: HomeIcon,                  label: '首页', badge: null },
+  { path: '/tasks', icon: ClipboardDocumentListIcon, label: '任务', badge: pendingCount.value > 0 ? pendingCount.value : null },
+  { path: '/elves', icon: BookOpenIcon,              label: '图鉴', badge: null },
+  { path: '/boss',  icon: BoltIcon,                  label: 'Boss', badge: null },
+  { path: '/profile',icon: UserIcon,                 label: '我的', badge: null },
 ])
 
 function handleElfImgError(e) {

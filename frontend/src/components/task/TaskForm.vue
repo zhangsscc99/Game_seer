@@ -25,29 +25,14 @@
       ></textarea>
     </div>
 
-    <div class="grid grid-cols-2 gap-3">
-      <div>
-        <label class="block text-gray-400 text-sm mb-1">分类</label>
-        <select v-model="form.category" class="game-input">
-          <option value="daily">日常</option>
-          <option value="main">主线</option>
-          <option value="challenge">挑战</option>
-          <option value="side">支线</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-gray-400 text-sm mb-1">难度</label>
-        <div class="flex items-center gap-1 mt-2">
-          <button
-            v-for="i in 5"
-            :key="i"
-            type="button"
-            @click="form.difficulty = i"
-            class="text-xl transition-colors"
-            :class="i <= form.difficulty ? 'text-accent' : 'text-gray-700 hover:text-gray-500'"
-          >★</button>
-        </div>
-      </div>
+    <div>
+      <label class="block text-gray-400 text-sm mb-1">分类</label>
+      <select v-model="form.category" class="game-input">
+        <option value="daily">日常</option>
+        <option value="main">主线</option>
+        <option value="challenge">挑战</option>
+        <option value="side">支线</option>
+      </select>
     </div>
 
     <div v-if="error" class="bg-red-900/30 border border-red-500/50 rounded px-3 py-2">
@@ -96,7 +81,6 @@ const form = reactive({
   title: '',
   description: '',
   category: 'daily',
-  difficulty: 1,
 })
 
 const errors = reactive({ title: '' })
@@ -107,12 +91,9 @@ watch(() => props.task, (task) => {
       title: task.title || '',
       description: task.description || '',
       category: task.category || 'daily',
-      difficulty: task.difficulty || 1,
     })
   } else {
-    Object.assign(form, {
-      title: '', description: '', category: 'daily', difficulty: 1,
-    })
+    Object.assign(form, { title: '', description: '', category: 'daily' })
   }
 }, { immediate: true })
 

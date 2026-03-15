@@ -25,16 +25,16 @@
       <!-- 左侧：精灵立绘 -->
       <div class="flex flex-col items-center">
         <div
-          class="relative w-64 h-64 rounded-2xl overflow-hidden border-4 mb-6 animate-float"
-          :class="rarityBorderClass"
+          class="relative w-full max-w-xs aspect-square rounded-2xl overflow-hidden border-4 mb-6 animate-float flex items-center justify-center"
+          :class="[rarityBorderClass, rarityBgClass]"
         >
           <img
             :src="elf.image_path || `http://localhost:8000/static/elves/${elf.id}.png`"
             :alt="elf.name"
-            class="w-full h-full object-cover"
+            class="w-full h-full object-contain p-3"
             @error="handleImgError"
           />
-          <div class="absolute inset-0" :class="rarityGlowOverlay"></div>
+          <div class="absolute inset-0 pointer-events-none" :class="rarityGlowOverlay"></div>
         </div>
 
         <!-- 稀有度标签 -->
@@ -158,6 +158,15 @@ const rarityBorderClass = computed(() => {
     SSR: 'border-ssr shadow-glow-ssr', UR: 'border-ur shadow-glow-ur'
   }
   return map[elf.value.rarity?.toUpperCase()] || 'border-gray-600'
+})
+
+const rarityBgClass = computed(() => {
+  if (!elf.value) return 'bg-space-700'
+  const map = {
+    N: 'bg-space-700', R: 'bg-[#0d1f3a]', SR: 'bg-[#1a1200]',
+    SSR: 'bg-[#1a0800]', UR: 'bg-[#0f0020]'
+  }
+  return map[elf.value.rarity?.toUpperCase()] || 'bg-space-700'
 })
 
 const rarityGlowOverlay = computed(() => {

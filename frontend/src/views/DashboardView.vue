@@ -179,17 +179,18 @@
         <div v-else class="relative z-10 flex flex-col items-center text-center py-8">
           <div class="elf-octagon-empty mb-4 flex items-center justify-center"
                style="width: 140px; height: 140px;">
-            <span class="text-5xl text-space-500">?</span>
+            <SparklesIcon class="w-12 h-12 text-space-500" />
           </div>
-          <p class="text-gray-500 text-sm font-mono mb-4">[ NO ACTIVE ELF ASSIGNED ]</p>
+          <p class="text-gray-400 text-sm mb-1">还没有设置主战精灵</p>
+          <p class="text-gray-600 text-xs mb-4">去「我的精灵」选一只陪你完成任务</p>
           <router-link to="/my-elves" class="px-4 py-2 border border-accent/50 text-accent text-xs font-orbitron tracking-widest hover:bg-accent/10 transition-colors">
-            ASSIGN ELF
+            前往设置
           </router-link>
         </div>
 
         <!-- 左下角装饰 -->
-        <div class="absolute bottom-4 left-4 text-space-500 text-xs font-mono">ELF_UNIT_01</div>
-        <div class="absolute top-4 right-4 text-space-500 text-xs font-mono">[ ACTIVE ]</div>
+        <div class="absolute bottom-4 left-4 text-space-500 text-xs font-mono">精灵位</div>
+        <div class="absolute top-4 right-4 text-space-500 text-xs font-mono">[ 主战 ]</div>
       </div>
 
       <!-- 右侧：任务终端 -->
@@ -309,6 +310,7 @@ import { useUserStore } from '@/stores/user'
 import { useTaskStore } from '@/stores/task'
 import { useElfStore } from '@/stores/elf'
 import ExpBar from '@/components/common/ExpBar.vue'
+import { SparklesIcon } from '@heroicons/vue/24/outline'
 
 const userStore = useUserStore()
 const taskStore = useTaskStore()

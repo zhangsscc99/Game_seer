@@ -202,3 +202,192 @@ body::before {
   opacity: 0;
   transform: translateY(-20px);
 }
+
+/* ===== Orbitron 字体工具类 ===== */
+.font-orbitron {
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* ===== 扫描线效果 ===== */
+.scanlines {
+  position: relative;
+  overflow: hidden;
+}
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ===== 全息扫描光 ===== */
+@keyframes holographic-scan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+.holo-scan::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(240,192,64,0.8), transparent);
+  animation: holographic-scan 3s ease-in-out infinite;
+  z-index: 5;
+}
+
+/* ===== 能量环旋转 ===== */
+@keyframes ring-spin-cw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes ring-spin-ccw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+.ring-cw { animation: ring-spin-cw 4s linear infinite; }
+.ring-ccw { animation: ring-spin-ccw 6s linear infinite; }
+
+/* ===== UR 全息虹彩 ===== */
+@keyframes hue-cycle {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+.holo-ur { animation: hue-cycle 4s linear infinite; }
+
+/* ===== SSR 呼吸发光 ===== */
+@keyframes ssr-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(255,69,0,0.4), 0 0 20px rgba(255,69,0,0.2); }
+  50% { box-shadow: 0 0 20px rgba(255,69,0,0.8), 0 0 40px rgba(255,69,0,0.4); }
+}
+.ssr-pulse { animation: ssr-pulse 2s ease-in-out infinite; }
+
+/* ===== R 级流光边框 ===== */
+@keyframes border-flow {
+  0% { border-color: rgba(64,128,255,0.4); }
+  50% { border-color: rgba(64,128,255,1); }
+  100% { border-color: rgba(64,128,255,0.4); }
+}
+.border-flow-rare { animation: border-flow 2s ease-in-out infinite; }
+
+/* ===== 斜角切割卡片 ===== */
+.clip-corner-tl {
+  clip-path: polygon(16px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 16px);
+}
+.clip-corner-tr {
+  clip-path: polygon(0% 0%, calc(100% - 16px) 0%, 100% 16px, 100% 100%, 0% 100%);
+}
+.clip-corner-all {
+  clip-path: polygon(16px 0%, calc(100% - 16px) 0%, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0% calc(100% - 16px), 0% 16px);
+}
+
+/* ===== HUD 数字仪表盘 ===== */
+.hud-number {
+  font-family: 'Orbitron', sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+
+/* ===== 终端命令行样式 ===== */
+.terminal-line {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8rem;
+  color: #a0f0a0;
+  border-left: 2px solid #a0f0a0;
+  padding-left: 0.75rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+.terminal-line::before {
+  content: '> ';
+  color: #40ff80;
+  font-weight: bold;
+}
+
+/* ===== 系统警报（错误提示）===== */
+@keyframes alert-blink {
+  0%, 100% { border-color: rgba(255,50,50,0.8); }
+  50% { border-color: rgba(255,50,50,0.2); }
+}
+.system-alert {
+  border: 1px solid rgba(255,50,50,0.8);
+  background: rgba(255,0,0,0.08);
+  animation: alert-blink 1s ease-in-out infinite;
+  padding: 0.75rem 1rem;
+  border-radius: 2px;
+  color: #ff6060;
+  font-size: 0.85rem;
+}
+.system-alert::before {
+  content: '[ ERROR ] ';
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: #ff4040;
+}
+
+/* ===== Staggered 入场动画 ===== */
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-slide-in {
+  animation: slide-in-up 0.5s ease forwards;
+  opacity: 0;
+}
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* ===== 数字滚动动画 ===== */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-count {
+  animation: count-up 0.6s ease forwards;
+}
+
+/* ===== 深空星域背景（CSS only）===== */
+.star-field {
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 50% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 35%, rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 15% 70%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 80%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 35% 90%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 45% 55%, rgba(200,200,255,0.6) 0%, transparent 100%),
+    radial-gradient(circle at 20% 30%, rgba(64,128,255,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(155,48,255,0.06) 0%, transparent 50%);
+  background-color: #0d0f1e;
+}
+
+/* ===== 传送门/能量环（登录页）===== */
+@keyframes portal-ring {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes portal-ring-rev {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(-360deg); }
+}

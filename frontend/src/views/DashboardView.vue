@@ -20,7 +20,7 @@
           <p class="commander-tag text-xs tracking-[0.4em] text-space-400 mb-1 uppercase font-orbitron">
             Commander · Active
           </p>
-          <h1 class="font-orbitron text-4xl sm:text-5xl font-black text-accent leading-none mb-2 truncate"
+          <h1 class="font-orbitron text-2xl sm:text-3xl font-bold text-accent leading-none mb-2 truncate"
               style="text-shadow: 0 0 30px rgba(240,192,64,0.5);">
             {{ displayName }}
           </h1>

@@ -440,3 +440,28 @@ MVP 的重点不是“像大游戏”，而是先验证：
 - 功能流程图
 - 数据库字段设计
 - 前端界面草图说明
+
+---
+
+## 18. 本地快速启动（SQLite）
+
+本项目默认使用 **本地 SQLite 文件** 储存数据，避免搭建额外数据库即可直接体验。
+
+### 后端（FastAPI）
+
+1. `cd backend`
+2. 准备虚拟环境：`python3.11 -m venv venv`
+3. 激活虚拟环境：`source venv/bin/activate`（Windows 使用 `venv\Scripts\activate`）
+4. 安装依赖：`pip install -r requirements.txt && pip install pydantic-settings`
+5. 复制环境变量：`cp .env.example .env`。保持 `DATABASE_URL=sqlite:///./game_seer.db` 即会在 `backend` 目录生成/使用 `game_seer.db`。
+6. 运行开发服务器：`uvicorn main:app --reload --host 0.0.0.0 --port 8000`
+
+> 第一次启动会自动执行 `Base.metadata.create_all()` 并创建 `game_seer.db`；删除该文件即可重置数据。
+
+### 前端（Vite + Vue 3）
+
+1. `cd frontend`
+2. `npm install`
+3. `npm run dev -- --host`
+
+Vite Dev Server 默认监听 `5173`，并通过 `frontend/vite.config.js` 将 `/api` 代理到 `http://localhost:8000`，因此请先跑起后端再访问 `http://localhost:5173`。

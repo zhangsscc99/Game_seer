@@ -260,7 +260,6 @@ async function handleUnlock() {
     unlocking.value = false
   }
 }
-}
 
 function handleImgError(e) {
   e.target.style.display = 'none'

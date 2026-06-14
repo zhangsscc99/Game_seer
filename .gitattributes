@@ -1,0 +1,1 @@
+backend/static/elves/*.png filter=lfs diff=lfs merge=lfs -text

@@ -28,8 +28,7 @@ frontend/node_modules/
 frontend/dist/
 frontend/.vite/
 
-# 精灵立绘静态文件（体积太大，不纳入版本控制）
-backend/static/elves/*.png
+# 精灵立绘静态文件由 Git LFS 管理，不再从 gitignore 排除
 
 # 导入脚本中间产物
 backend/scripts/elves_raw.json

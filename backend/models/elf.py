@@ -21,6 +21,22 @@ class ElfElement(str, enum.Enum):
     thunder = "thunder"
     ice = "ice"
     dark = "dark"
+    light = "light"
+    flying = "flying"
+    mechanic = "mechanic"
+    ground = "ground"
+    normal = "normal"
+    psychic = "psychic"
+    fighting = "fighting"
+    mystery = "mystery"
+    dragon = "dragon"
+    holy = "holy"
+    dimension = "dimension"
+    ancient = "ancient"
+    evil = "evil"
+    nature = "nature"
+    chaos = "chaos"
+    void = "void"
 
 
 class ElfTemplate(Base):

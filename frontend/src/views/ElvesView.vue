@@ -160,13 +160,20 @@ const rarities = [
 ]
 
 const elements = [
-  { value: 'fire', icon: '🔥', label: '火' },
-  { value: 'water', icon: '💧', label: '水' },
-  { value: 'grass', icon: '🌿', label: '草' },
-  { value: 'electric', icon: '⚡', label: '电' },
-  { value: 'ice', icon: '❄️', label: '冰' },
-  { value: 'dark', icon: '🌑', label: '暗' },
-  { value: 'light', icon: '✨', label: '光' }
+  { value: 'fire',      icon: '🔥', label: '火' },
+  { value: 'water',     icon: '💧', label: '水' },
+  { value: 'grass',     icon: '🌿', label: '草' },
+  { value: 'thunder',   icon: '⚡', label: '电' },
+  { value: 'ice',       icon: '❄️', label: '冰' },
+  { value: 'dark',      icon: '🌑', label: '暗' },
+  { value: 'light',     icon: '✨', label: '光' },
+  { value: 'flying',    icon: '🪶', label: '飞行' },
+  { value: 'ground',    icon: '🪨', label: '地面' },
+  { value: 'mechanic',  icon: '⚙️', label: '机械' },
+  { value: 'dragon',    icon: '🐉', label: '龙' },
+  { value: 'psychic',   icon: '🔮', label: '超能' },
+  { value: 'fighting',  icon: '🥊', label: '战斗' },
+  { value: 'normal',    icon: '⭕', label: '普通' },
 ]
 
 const collectProgress = computed(() => {

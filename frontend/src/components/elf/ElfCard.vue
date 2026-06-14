@@ -26,7 +26,7 @@
     <div class="relative aspect-square overflow-hidden flex items-center justify-center" :class="imgBgClass">
       <!-- 精灵图片（图鉴全部可见） -->
       <img
-        :src="elf.image_path || `http://localhost:8000/static/elves/${elf.id}.png`"
+        :src="elfImageUrl"
         :alt="elf.name"
         class="w-full h-full object-contain p-2 transition-transform duration-500 hover:scale-110 img-main"
         @error="handleImgError"
@@ -87,6 +87,13 @@ defineEmits(['click'])
 // 鼠标 3D 倾斜（UR 专属）
 const tiltX = ref(0)
 const tiltY = ref(0)
+
+const elfImageUrl = computed(() => {
+  const path = props.elf.image_path
+  if (!path) return `http://localhost:8000/static/elves/${props.elf.id}.png`
+  if (path.startsWith('http')) return path
+  return `http://localhost:8000/static/${path}`
+})
 
 // rarity 必须在所有依赖它的 computed 之前声明
 const rarity = computed(() => (props.elf.rarity || 'N').toUpperCase())
@@ -167,36 +174,42 @@ const rarityBadgeClass = computed(() => {
   return map[rarity.value] || 'badge-n'
 })
 
+const ELEMENT_ICON = {
+  fire:      '🔥', water:    '💧', grass:    '🌿',
+  thunder:   '⚡', ice:      '❄️', dark:     '🌑',
+  light:     '✨', flying:   '🪶', ground:   '🪨',
+  mechanic:  '⚙️', dragon:   '🐉', psychic:  '🔮',
+  fighting:  '🥊', mystery:  '🌀', holy:     '😇',
+  dimension: '🌐', ancient:  '🦕', evil:     '👿',
+  nature:    '🍃', chaos:    '💥', void:     '🌌',
+  normal:    '⭕',
+}
+
+const ELEMENT_CLASS = {
+  fire:      'bg-red-900/60 border-red-600/60 text-red-300',
+  water:     'bg-blue-900/60 border-blue-600/60 text-blue-300',
+  grass:     'bg-green-900/60 border-green-600/60 text-green-300',
+  thunder:   'bg-yellow-900/60 border-yellow-500/60 text-yellow-300',
+  ice:       'bg-cyan-900/60 border-cyan-600/60 text-cyan-200',
+  dark:      'bg-gray-900/80 border-gray-600/60 text-gray-400',
+  light:     'bg-yellow-700/30 border-yellow-400/60 text-yellow-200',
+  flying:    'bg-sky-900/60 border-sky-500/60 text-sky-300',
+  ground:    'bg-orange-900/60 border-orange-600/60 text-orange-300',
+  mechanic:  'bg-zinc-800/80 border-zinc-500/60 text-zinc-300',
+  dragon:    'bg-purple-900/60 border-purple-500/60 text-purple-300',
+  psychic:   'bg-pink-900/60 border-pink-500/60 text-pink-300',
+  fighting:  'bg-red-800/60 border-red-500/60 text-red-200',
+  mystery:   'bg-indigo-900/60 border-indigo-500/60 text-indigo-300',
+  holy:      'bg-amber-800/40 border-amber-400/60 text-amber-200',
+  normal:    'bg-slate-800/60 border-slate-500/60 text-slate-400',
+}
+
 const elementSymbol = computed(() => {
-  const map = {
-    fire:     'F',
-    water:    'W',
-    grass:    'G',
-    electric: 'E',
-    ice:      'I',
-    dark:     'D',
-    light:    'L',
-    earth:    'T',
-    wind:     'A',
-    poison:   'P'
-  }
-  return map[props.elf.element?.toLowerCase()] || '?'
+  return ELEMENT_ICON[props.elf.element?.toLowerCase()] || '❓'
 })
 
 const elementClass = computed(() => {
-  const map = {
-    fire:     'bg-red-900/60 border-red-600/60 text-red-300',
-    water:    'bg-blue-900/60 border-blue-600/60 text-blue-300',
-    grass:    'bg-green-900/60 border-green-600/60 text-green-300',
-    electric: 'bg-yellow-900/60 border-yellow-500/60 text-yellow-300',
-    ice:      'bg-cyan-900/60 border-cyan-600/60 text-cyan-200',
-    dark:     'bg-gray-900/80 border-gray-600/60 text-gray-400',
-    light:    'bg-yellow-700/30 border-yellow-400/60 text-yellow-200',
-    earth:    'bg-orange-900/60 border-orange-600/60 text-orange-300',
-    wind:     'bg-teal-900/60 border-teal-600/60 text-teal-300',
-    poison:   'bg-purple-900/60 border-purple-600/60 text-purple-300'
-  }
-  return map[props.elf.element?.toLowerCase()] || 'bg-space-600 border-space-400 text-gray-400'
+  return ELEMENT_CLASS[props.elf.element?.toLowerCase()] || 'bg-space-600 border-space-400 text-gray-400'
 })
 
 function handleImgError(e) {
